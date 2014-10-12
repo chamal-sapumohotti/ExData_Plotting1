@@ -1,4 +1,5 @@
-pd <- read.csv("household_power_consumption.txt", sep=";")
+classes <- c("factor", "factor", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric")
+pd <- read.table("household_power_consumption.txt",header=T,  sep=";", na.strings="?", colClasses=classes)
 pd$Date <- as.Date(pd$Date, format="%d/%m/%Y")
 
 startDate <- as.Date("2007-02-01")
@@ -8,9 +9,6 @@ pd <- pd[pd$Date >= startDate & pd$Date <= endDate,  ]
 pd$FullTimeStr <- paste(as.character(pd$Date), pd$Time, " ")
 pd$FullTime <- strptime(pd$FullTimeStr, format="%Y-%m-%d %H:%M:%S")
 
-pd$Global_active_power <- as.numeric(pd$Global_active_power) /1000 #convert into kw.
-pd$Voltage <- as.numeric(pd$Voltage)
-pd$Global_reactive_power <- as.numeric(pd$Global_reactive_power)
 
 png("plot4.png", width=480, height=480)
 par(mfrow=c(2, 2))
